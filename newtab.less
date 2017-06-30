@@ -1,0 +1,257 @@
+@mutedBlue: #5B83AD;
+@brightPink: #F6546A;
+@brightBlue: #3399FF;
+@mutedPink: #E7D5D5;
+@brightYellow: #FFFF00;
+@brightGreen: #66CC00;
+
+@black: #000;
+@darkerGray: #181818;
+@darkGray: #333;
+@gray: #666;
+@lightGray: #AAA;
+@white: #FFF;
+
+@background: rgba(245,0,245,1);
+@uppercaseHeaderFonts: "Calibri","HelveticaNeue", Helvetica, sans-serif;
+@modernFonts: "Lato", "HelveticaNeue", "Helvetica", sans-serif;
+
+@newsImageWidth: 120px;
+
+@x: 5px;
+.pad(@a) {
+  padding: @x*@a;
+}
+
+.pad-hv(@a, @b) {
+  padding: @x*@a @x*@b;
+}
+
+.margin(@a) {
+  margin: @x*@a;
+}
+
+.margin-hv(@a, @b) {
+  margin: @x*@a @x*@b;
+}
+
+.round(@a) {
+  border-radius: @a;
+  -webkit-border-radius: @a;
+  -moz-border-radius: @a;
+}
+
+.round-top-left(@a) {
+  border-top-left-radius: @a;
+  -webkit-border-top-left-radius: @a;
+}
+
+.round-top-right(@a) {
+  border-top-right-radius: @a;
+  -webkit-border-top-right-radius: @a;
+}
+
+@pad-x: { padding: @x }
+
+body {
+  background: white;
+  padding: 0px 0px;
+  font-family: @modernFonts;
+}
+
+.wrapper {
+  margin: 0px;
+  padding: 0px 35px;
+}
+
+.header {
+  font-size: 60px;
+  color: black;
+  margin: 0 0 0 5px;
+}
+
+.subheader {
+  color: @darkGray;
+  .margin-hv(5,0);
+  font-weight: 500;
+  font-size: 30px;
+}
+
+.date {
+  .margin-hv(2,0);
+  color: white;
+  background: red;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 30px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.defaultSection {
+  .pad(2);
+  .margin(2);
+}
+
+.headerSection:extend(.defaultSection) {
+
+}
+
+.newsSection:extend(.defaultSection) {
+
+}
+
+ul.newsItems {
+  list-style-type: none;
+  padding: 0px;
+  max-width: 600px;
+
+  li.newsItem {
+    .margin-hv(2,0);
+    .pad-hv(0,0);
+    .round(5px);
+    display: block;
+    box-shadow: 0 1px 4px lighten(black, 72%);
+    overflow: hidden;
+    position: relative;
+    opacity: 0.4;
+
+    a.newsItemLink {
+      text-decoration: none;
+      max-height: 200px;
+      overflow: hidden;
+      padding: 5px;
+
+      div.newsItemLinkImageDiv {
+        float: left;
+        margin: 15px;
+        max-width: @newsImageWidth;
+        overflow: hidden;
+
+        img.newsItemLinkImage {
+          float: left;
+          margin: 0 0px 0 0;
+          width: @newsImageWidth;
+          height: 100%;
+          border-radius: 6px;
+        }
+      }
+
+      div.newsItemLinkContent {
+        .pad-hv(1,7);
+        margin-left: @newsImageWidth;
+
+        .newsItemLinkTitle {
+          font-size: 21px;
+          color: @darkGray;
+          .margin-hv(3,1);
+        }
+
+        p.newsItemLinkDescription {
+          font-size: 15px;
+          color: @gray;
+          .margin-hv(2,1);
+        }
+
+        p.newsItemLinkSource {
+          bottom:0px !important;
+          .margin-hv(2,1);
+          color: forestgreen;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
+
+ul.newsItems li.newsItem:hover {
+  opacity: 1;
+}
+
+.sectionMenu {
+
+}
+
+ul.sectionHeaderList {
+  list-style-type: none;
+  padding: 0px;
+
+  li.sectionHeaderItem {
+    display: inline-block;
+    margin: 0px 10px 0px 0px;
+    color: @black;
+    opacity: 0.3;
+  }
+}
+
+
+ul.sectionHeaderList li.sectionHeaderItem.active {
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+.sectionHeader {
+  color: black;
+  font-size: 36px;
+  font-weight: 400;
+}
+
+
+.leftPane {
+  float: left;
+  .margin-hv(1,3);
+}
+
+.rightPane{
+  float: left;
+  .margin-hv(1,3);
+}
+
+.toDoList {
+  list-style-type: none;
+  .pad-hv(0,0);
+  .margin-hv(1,1);
+
+  .toDoItem {
+    .pad-hv(2,5);
+    .margin-hv(2,0);
+    max-width: 200px;
+
+    overflow: hidden;
+    box-shadow: 0 1px 3px lighten(black, 80%);
+    .round(6px);
+
+    .toDoItemText {
+      color: @gray;
+      font-size: 16px;
+    }
+  }
+}
+
+.uppercaseSmallHeader {
+  font-family: @uppercaseHeaderFonts;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: @lightGray;
+}
+
+.addToDoForm {
+  .margin-hv(0,0);
+
+  .addToDoInput {
+    border: 0px;
+    background: rgba(0,0,0,0.06);
+    .round(5px);
+    color: @lightGray;
+    font-size: 16px;
+    padding: 10px 10px;
+    width: 100%;
+  }
+
+  .addToDoInput:focus {
+    border: 0px;
+    background: @black;
+    color: @white;
+    outline: none;
+  }
+}
