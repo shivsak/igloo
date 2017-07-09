@@ -65,6 +65,7 @@ function isEmpty(obj) {
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {
+    setDate();
     fetchAndRenderToDoListItems();
     getNewsSource(function(source) {
       updateNewsSourceInfoText(source);
@@ -201,7 +202,7 @@ function renderNewsItems(response) {
                   '<p class="newsItemLinkSource">' + url + '</p>' +
                   '<h4 class="newsItemLinkTitle">' + title + '</h4>' +
                   '<p class="newsItemLinkDescription">' +
-                      description +
+                      description + '...' +
                   '</p>' +
                   '<div class="newsItemLinkImageDiv">' +
                       '<img src="'+ imageUrl +'" class="newsItemLinkImage" />' +
@@ -248,7 +249,7 @@ function renderSelectedSourceInList(source) {
 function updateNewsSourceInfoText(source) {
   var newsSourceInfoText = document.getElementById('newsSourceInfoText');
   if (newsSourceInfoText) {
-    newsSourceInfoText.innerHTML = 'getting news from <a href="#" id="newsSourceInfoTextName">' + source.name + '</a>';
+    newsSourceInfoText.innerHTML = 'getting news from <a href="#" class="highlighted" id="newsSourceInfoTextName">' + source.name + '</a>';
   }
 }
 
@@ -342,4 +343,27 @@ function hideSettings() {
     settings.classList.remove('fadeInRight');
     settings.classList.remove('show');
   }
+}
+
+
+// set date
+function setDate() {
+  var date = new Date();
+  console.log(date.getDate());
+  var dateElem = document.getElementById('date');
+  if (dateElem) {
+    dateElem.innerHTML= getFormattedMonth(date) + ' <a href="http://calendar.google.com" class="date">'+getFormattedDate(date)+'</a>'
+  }
+}
+
+function getFormattedDate (dateObject) {
+  const date = dateObject.getDate();
+  const paddedDate = ("00" + date).slice(-2)
+  return paddedDate
+}
+
+function getFormattedMonth (dateObject) {
+  const monthNumber = dateObject.getMonth();
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months[monthNumber];
 }
