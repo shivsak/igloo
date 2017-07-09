@@ -1,4 +1,5 @@
 var readingStack = '"Georgia", "AmericanTypewriter", "Garamond", serif';
+var newsSources = []
 
 function addToDo() {
     console.log('adding to do')
@@ -65,7 +66,12 @@ function isEmpty(obj) {
 
 document.addEventListener('DOMContentLoaded', function (event) {
     fetchAndRenderToDoListItems();
+    getNewsSource(function(source) {
+      updateNewsSourceInfoText(source);
+    })
     fetchAndRenderNewsItems();
+    fetchAndRenderListOfSources();
+    addEventListeners();
 
     var toDoForm = document.getElementById('toDoForm');
     toDoForm.addEventListener('submit', function(event) {
@@ -141,15 +147,15 @@ function clearChromeStorage() {
 
 // News
 function fetchAndRenderNewsItems() {
-  const source = 'the-next-web';
-  console.log('getting from ' + source);
-  const url = 'https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=6c312d86d5b94c768f39049f27b85696'
-  httpGetAsync(url, function (response) {
-    console.log('heres the news');
-    const newsResponse = JSON.parse(response)
-    console.log(newsResponse);
-    renderNewsItems(newsResponse);
-  })
+  getNewsSource(function (source) {
+    if (source.hasOwnProperty('id')) {
+      const url = 'https://newsapi.org/v1/articles?source='+source.id+'&sortBy=latest&apiKey=6c312d86d5b94c768f39049f27b85696'
+      httpGetAsync(url, function (response) {
+        const newsResponse = JSON.parse(response)
+        renderNewsItems(newsResponse);
+      })
+    }
+  });
 }
 
 function renderNewsItems(response) {
@@ -189,19 +195,17 @@ function renderNewsItems(response) {
         }
       }
 
-
-      console.log(article)
-      const newsItem = '<li class="box newsItem">' +
+      const newsItem = '<li class="box columns newsItem">' +
           '<a href="'+url+'" class="newsItemLink" target="_blank">' +
-              '<div class="newsItemLinkImageDiv">' +
-                  '<img src="'+ imageUrl +'" class="newsItemLinkImage" />' +
-              '</div>' +
               '<div class="newsItemLinkContent">' +
                   '<p class="newsItemLinkSource">' + url + '</p>' +
                   '<h4 class="newsItemLinkTitle">' + title + '</h4>' +
                   '<p class="newsItemLinkDescription">' +
                       description +
                   '</p>' +
+                  '<div class="newsItemLinkImageDiv">' +
+                      '<img src="'+ imageUrl +'" class="newsItemLinkImage" />' +
+                  '</div>' +
               '</div>' +
           '</a>' +
       '</li>'
@@ -224,4 +228,118 @@ function httpGetAsync(theUrl, callback)
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous
     xmlHttp.send(null);
+}
+
+
+
+// customize news sources
+function setNewsSource(source) {
+  chrome.storage.local.set({'newsSource': source}, function () {
+    updateNewsSourceInfoText(source);
+    renderSelectedSourceInList(source);
+    fetchAndRenderNewsItems();
+  });
+}
+
+function renderSelectedSourceInList(source) {
+
+}
+
+function updateNewsSourceInfoText(source) {
+  var newsSourceInfoText = document.getElementById('newsSourceInfoText');
+  if (newsSourceInfoText) {
+    newsSourceInfoText.innerHTML = 'getting news from <a href="#" id="newsSourceInfoTextName">' + source.name + '</a>';
+  }
+}
+
+function getNewsSource(callback) {
+  chrome.storage.local.get('newsSource', function(result) {
+    callback(result.newsSource)
+  })
+}
+
+function fetchAndRenderListOfSources(callback) {
+  const url = 'https://newsapi.org/v1/sources?language=en'
+  httpGetAsync(url, function (response) {
+    const sourcesResponse = JSON.parse(response)
+    console.log(sourcesResponse);
+    if (sourcesResponse.hasOwnProperty('sources')) {
+      renderListOfSources(sourcesResponse.sources);
+    }
+  })
+}
+
+function renderListOfSources(sources) {
+  var newsSourcesList = document.getElementById('newsSourcesList');
+  var sourceListHtml = '';
+  console.log(sources);
+  for (var i=0; i<sources.length; i++) {
+    const source = sources[i];
+    sourceListHtml +='<li class="newsSourcesListItem">'+ source.name +'</li>'
+  }
+  if (newsSourcesList) {
+    newsSourcesList.innerHTML = sourceListHtml;
+  }
+
+  addSourcesClickEventListeners(sources)
+}
+
+function addSourcesClickEventListeners(sources) {
+  var sourceElems = document.getElementsByClassName('newsSourcesListItem');
+  if (sourceElems && sourceElems.length > 0) {
+    for (var i=0; i<sources.length; i++) {
+      const sourceElem = sourceElems[i];
+      const source = sources[i]
+      sourceElem.addEventListener('click', function (i) {
+        sourceSelected(source)
+      })
+    }
+  }
+}
+
+function addEventListeners() {
+  addShowSettingsTextEventListeners();
+  addHideSettingsTextEventListeners();
+}
+
+function addShowSettingsTextEventListeners() {
+  var newsSourceInfoText = document.getElementById('newsSourceInfoText');
+  if (newsSourceInfoText) {
+    newsSourceInfoText.addEventListener('click', function () {
+      showSettings();
+    })
+  }
+}
+
+function addHideSettingsTextEventListeners() {
+  var settingsHideButton = document.getElementById('settingsHideButton');
+  if (settingsHideButton) {
+    settingsHideButton.addEventListener('click', function () {
+      console.log('hideing')
+      hideSettings();
+    })
+  }
+}
+
+function sourceSelected(source) {
+  console.log('selected source id ' + source.id);
+  setNewsSource(source);
+}
+
+function showSettings() {
+  var settings = document.getElementById('settings');
+  if (settings) {
+    settings.classList.add('animated');
+    settings.classList.add('fadeInRight');
+    settings.classList.add('show');
+  }
+}
+
+function hideSettings() {
+  var settings = document.getElementById('settings');
+  if (settings) {
+    settings.classList.remove('animated');
+    settings.classList.remove('fadeInRight');
+    settings.classList.remove('show');
+  }
 }

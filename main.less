@@ -17,7 +17,7 @@
 @uppercaseHeaderFonts: "Calibri","HelveticaNeue", Helvetica, sans-serif;
 @modernFonts: "Lato", "HelveticaNeue", "Helvetica", sans-serif;
 
-@newsImageWidth: 120px;
+@newsImageWidth: 320px;
 
 @x: 5px;
 .pad(@a) {
@@ -109,7 +109,7 @@ ul.newsItems {
   // max-width: 600px;
 
   li.newsItem {
-    .margin-hv(2,0);
+    .margin-hv(3,0);
     .pad-hv(0,0);
     .round(5px);
     display: block;
@@ -127,11 +127,10 @@ ul.newsItems {
       div.newsItemLinkImageDiv {
         float: left;
         margin: 15px;
-        max-width: @newsImageWidth;
+        max-width: 400px;
         overflow: hidden;
 
         img.newsItemLinkImage {
-          float: left;
           margin: 0 0px 0 0;
           width: @newsImageWidth;
           height: 100%;
@@ -140,13 +139,14 @@ ul.newsItems {
       }
 
       div.newsItemLinkContent {
-        .pad-hv(1,7);
-        margin-left: @newsImageWidth;
+        .pad-hv(1,1);
+        .margin-hv(1,1);
 
         .newsItemLinkTitle {
-          font-size: 21px;
+          font-size: 18px;
+          font-weight: 400;
           color: @darkGray;
-          .margin-hv(3,1);
+          .margin-hv(2,1);
         }
 
         p.newsItemLinkDescription {
@@ -217,11 +217,13 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   .margin-hv(1,1);
 
   .toDoItem {
-    .pad-hv(2,5);
-    .margin-hv(2,0);
+    .pad-hv(4,5);
+    .margin-hv(0,0);
+    margin-bottom: 7px !important;  // override bulma
     max-width: 300px;
     overflow: hidden;
-    // box-shadow: 0 1px 3px lighten(black, 80%);
+    box-shadow: none;
+    border: 1px solid rgba(0,0,0,0.1);
     .round(6px);
 
     .toDoItemText {
@@ -269,4 +271,64 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
 
 .clickable {
   cursor: pointer;
+}
+
+.dark {
+  background: black;
+  color: white;
+}
+
+.button.doneButton {
+  float: right;
+  background: @darkGray;
+  color: white;
+  border: 0;
+  width: 100%;
+}
+
+.settings {
+  .dark;
+  display: none;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-top: 0;
+  border-bottom: 0;
+  z-index: 2;
+  height: 100vh;
+  position: fixed;
+  right: 0px;
+  min-width: 400px;
+  max-width: 400px;
+  overflow-y: scroll;
+  float: right;
+  .pad-hv(2,4);
+  .newsSourcesContainer {
+    .newsSourcesList {
+      .margin-hv(2,0);
+        .newsSourcesListItem {
+          padding: 15px 15px;
+          background: @darkerGray;
+          .margin-hv(0,0);
+          .round(4px);
+          .clickable;
+        }
+        .newsSourcesListItem.selected {
+          background: @brightBlue;
+        }
+    }
+  }
+}
+
+.settings.show {
+  display: block;
+}
+
+.infoText {
+  color: @lightGray;
+  font-size: 13px;
+  .clickable;
+}
+
+.infoText .highlighted {
+  color: #3399FF;
 }

@@ -4,55 +4,69 @@
         <title>today</title>
         <link rel="stylesheet/less" type="text/css" href="main.less" />
         <link rel="stylesheet" type="text/css" href="resources/css/bulma-0.4.3.min.css" />
+        <link rel="stylesheet" type="text/css" href="resources/css/animate.css" />
         <script src="index.js"></script>
         <script src="less.js" type="text/javascript"></script>
     </head>
     <body>
-        <div class="columns wrapper">
-          <div class="column is-3">
-              <div class="headerSection">
-                  <!--<h1 class="header">today</h1>-->
-                  <h2 class="subheader">
-                      June <a href="http://calendar.google.com" class="date">29</a>
-                  </h2>
-                  <br />
-                  <form class="addToDoForm" id="toDoForm">
-                      <input type="text" id="itemTextInput" placeholder="New To Do" class="addToDoInput" id="addToDoInput"/>
-                  </form>
-                  <br />
-                  <ul class="toDoList" id="toDoList">
+      <div class="settings" id="settings">
+        <div class="newsSourcesContainer">
+          <a href="#" class="button doneButton fw" id="settingsHideButton">Hide</a>
+          <br /><br />
+          <p>News source:</p>
+          <ul class="newsSourcesList" id="newsSourcesList">
+
+          </ul>
+        </div>
+      </div>
+      <div class="columns wrapper">
+        <div class="column is-3">
+            <div class="headerSection">
+                <!--<h1 class="header">today</h1>-->
+                <h2 class="subheader">
+                    June <a href="http://calendar.google.com" class="date">29</a>
+                </h2>
+                <br />
+                <form class="addToDoForm" id="toDoForm">
+                    <input type="text" id="itemTextInput" placeholder="New To Do" class="addToDoInput" id="addToDoInput"/>
+                </form>
+                <br />
+                <ul class="toDoList" id="toDoList">
+                </ul>
+            </div>
+        </div>
+        <div class="column is-8">
+            <br /><br />
+              <div class="sectionMenu">
+                  <ul class="sectionHeaderList">
+                      <li class="sectionHeaderItem active">
+                          <h1 class="sectionHeader">
+                              news
+                          </h1>
+                      </li>
+                      <li class="sectionHeaderItem">
+                          <h1 class="sectionHeader">
+                              twitter
+                          </h1>
+                      </li>
+                      <li class="sectionHeaderItem">
+                          <h1 class="sectionHeader">
+                              gmail
+                          </h1>
+                      </li>
+                  </ul>
+              </div>
+              <p class="infoText" id="newsSourceInfoText">
+                 <a class="highlighted" id="newsSourceInfoTextName">a </a>
+              </p>
+              <div class="newsSection">
+                  <h2 class="sectionSubheader"></h2>
+                  <ul class="newsItems" id="newsItemsList">
+
                   </ul>
               </div>
           </div>
-          <div class="column is-8">
-              <br /><br />
-                <div class="sectionMenu">
-                    <ul class="sectionHeaderList">
-                        <li class="sectionHeaderItem active">
-                            <h1 class="sectionHeader">
-                                news
-                            </h1>
-                        </li>
-                        <li class="sectionHeaderItem">
-                            <h1 class="sectionHeader">
-                                twitter
-                            </h1>
-                        </li>
-                        <li class="sectionHeaderItem">
-                            <h1 class="sectionHeader">
-                                gmail
-                            </h1>
-                        </li>
-                    </ul>
-                </div>
-                <div class="newsSection">
-                    <h2 class="sectionSubheader"></h2>
-                    <ul class="newsItems" id="newsItemsList">
 
-                    </ul>
-                </div>
-            </div>
-
-        </div>
+      </div>
     </body>
 </html>
