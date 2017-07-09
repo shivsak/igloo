@@ -2,28 +2,30 @@
 <html>
     <head>
         <title>today</title>
-        <link rel="stylesheet/less" type="text/css" href="newtab.less" />
-        <script src="newtab.js"></script>
+        <link rel="stylesheet/less" type="text/css" href="main.less" />
+        <link rel="stylesheet" type="text/css" href="resources/css/bulma-0.4.3.min.css" />
+        <script src="index.js"></script>
         <script src="less.js" type="text/javascript"></script>
     </head>
     <body>
-        <div class="wrapper">
-            <div class="leftPane">
-                <div class="headerSection">
-                    <!--<h1 class="header">today</h1>-->
-                    <h2 class="subheader">
-                        June <a href="http://calendar.google.com" class="date">29</a>
-                    </h2>
-                    <br /><br /><br /><br />
-                    <form class="addToDoForm" id="toDoForm">
-                        <input type="text" id="itemTextInput" placeholder="New To Do" class="addToDoInput" id="addToDoInput"/>
-                    </form>
-                    <br /><br />
-                    <ul class="toDoList" id="toDoList">
-                    </ul>
-                </div>
-            </div>
-            <div class="rightPane">
+        <div class="columns wrapper">
+          <div class="column is-3">
+              <div class="headerSection">
+                  <!--<h1 class="header">today</h1>-->
+                  <h2 class="subheader">
+                      June <a href="http://calendar.google.com" class="date">29</a>
+                  </h2>
+                  <br />
+                  <form class="addToDoForm" id="toDoForm">
+                      <input type="text" id="itemTextInput" placeholder="New To Do" class="addToDoInput" id="addToDoInput"/>
+                  </form>
+                  <br />
+                  <ul class="toDoList" id="toDoList">
+                  </ul>
+              </div>
+          </div>
+          <div class="column is-8">
+              <br /><br />
                 <div class="sectionMenu">
                     <ul class="sectionHeaderList">
                         <li class="sectionHeaderItem active">
@@ -45,56 +47,12 @@
                 </div>
                 <div class="newsSection">
                     <h2 class="sectionSubheader"></h2>
-                    <ul class="newsItems">
-                        <li class="newsItem">
-                            <a href="#" class="newsItemLink">
-                                <div class="newsItemLinkImageDiv">
-                                    <img src="resources/obama.jpg" class="newsItemLinkImage" />
-                                </div>
-                                <div class="newsItemLinkContent">
-                                    <p class="newsItemLinkSource">nytimes.com/us/2017/06/30/obama-reinstated.html</p>
-                                    <h4 class="newsItemLinkTitle">Obama reinstated- sentences Trump to 5 years in prison</h4>
-                                    <p class="newsItemLinkDescription">
-                                        Obama reinstated- sentences Trump to 5 years in prison. No more trump yay.
-                                        Obama reinstated- sentences Trump to 5 years in prison. No more trump yay.
-                                        Obama reinstated- sentences Trump to 5 years in prison. No more trump yay.
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="newsItem">
-                            <a href="#" class="newsItemLink">
-                                <div class="newsItemLinkImageDiv">
-                                    <img src="resources/head.jpg" class="newsItemLinkImage" />
-                                </div>
-                                <div class="newsItemLinkContent">
-                                    <p class="newsItemLinkSource">nytimes.com/us/2017/06/30/obama-reinstated.html</p>
-                                    <h4 class="newsItemLinkTitle">Trump doesn't like blue</h4>
-                                    <p class="newsItemLinkDescription">
-                                        Obama reinstated- sentences Trump to 5 years in prison. No more trump yay.
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="newsItem">
-                            <a href="#" class="newsItemLink">
-                                <div class="newsItemLinkImageDiv">
-                                    <img src="resources/tiger.jpg" class="newsItemLinkImage" />
-                                </div>
-                                <div class="newsItemLinkContent">
-                                    <p class="newsItemLinkSource">nytimes.com/us/2017/06/30/obama-reinstated.html</p>
-                                    <h4 class="newsItemLinkTitle">Obama reinstated- sentences Trump to 5 years in prison</h4>
-                                    <p class="newsItemLinkDescription">
-                                        Obama reinstated- sentences Trump to 5 years in prison. No more trump yay.
-                                        Obama reinstated- sentences Trump to 5 years in prison. No more trump yay.
-                                        Obama reinstated- sentences Trump to 5 years in prison. No more trump yay.
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
+                    <ul class="newsItems" id="newsItemsList">
+
                     </ul>
                 </div>
             </div>
+
         </div>
     </body>
 </html>

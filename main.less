@@ -10,6 +10,7 @@
 @darkGray: #333;
 @gray: #666;
 @lightGray: #AAA;
+@lighterGray: #CCC;
 @white: #FFF;
 
 @background: rgba(245,0,245,1);
@@ -79,10 +80,11 @@ body {
 
 .date {
   .margin-hv(2,0);
-  color: white;
-  background: red;
+  color: #33498F;
+  background: none;
+  border: 2px solid #33498F;
   border-radius: 50%;
-  padding: 15px;
+  padding: 10px;
   font-size: 30px;
   font-weight: 500;
   text-decoration: none;
@@ -104,17 +106,17 @@ body {
 ul.newsItems {
   list-style-type: none;
   padding: 0px;
-  max-width: 600px;
+  // max-width: 600px;
 
   li.newsItem {
     .margin-hv(2,0);
     .pad-hv(0,0);
     .round(5px);
     display: block;
-    box-shadow: 0 1px 4px lighten(black, 72%);
+    // box-shadow: 0 1px 4px lighten(black, 72%);
     overflow: hidden;
     position: relative;
-    opacity: 0.4;
+    opacity: 0.7;
 
     a.newsItemLink {
       text-decoration: none;
@@ -154,10 +156,11 @@ ul.newsItems {
         }
 
         p.newsItemLinkSource {
-          bottom:0px !important;
           .margin-hv(2,1);
           color: forestgreen;
-          font-size: 15px;
+          font-size: 13px;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
       }
     }
@@ -181,6 +184,7 @@ ul.sectionHeaderList {
     margin: 0px 10px 0px 0px;
     color: @black;
     opacity: 0.3;
+    .clickable
   }
 }
 
@@ -215,15 +219,22 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   .toDoItem {
     .pad-hv(2,5);
     .margin-hv(2,0);
-    max-width: 200px;
-
+    max-width: 300px;
     overflow: hidden;
-    box-shadow: 0 1px 3px lighten(black, 80%);
+    // box-shadow: 0 1px 3px lighten(black, 80%);
     .round(6px);
 
     .toDoItemText {
       color: @gray;
       font-size: 16px;
+    }
+    .hideItemButton {
+      color: @lighterGray;
+      font-size: 14px;
+      float: right;
+      margin: 0 0 0 5px;
+      padding: 0 5px;
+      cursor: pointer;
     }
   }
 }
@@ -254,4 +265,8 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
     color: @white;
     outline: none;
   }
+}
+
+.clickable {
+  cursor: pointer;
 }
