@@ -80,10 +80,13 @@ body {
 }
 
 .date {
-  .margin-hv(2,0);
-  color: @darkBlue;
-  background: none;
-  border: 2px solid @darkBlue;
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  color: @white;
+  background: @brightPink;
+  border: 0 solid @brightPink;
   border-radius: 50%;
   padding: 10px;
   font-size: 30px;
@@ -110,36 +113,34 @@ ul.newsItems {
   // max-width: 600px;
 
   li.newsItem {
-    .margin-hv(3,0);
+    .margin-hv(3,3);
     .pad-hv(0,0);
     .round(5px);
-    display: block;
-    // box-shadow: 0 1px 4px lighten(black, 72%);
+    max-width: 400px;
+    display: inline-block;
+    box-shadow: 0 1px 4px lighten(black, 72%);
     overflow: hidden;
     position: relative;
-    opacity: 0.7;
+    opacity: 1;
 
     a.newsItemLink {
       text-decoration: none;
       max-height: 200px;
       overflow: hidden;
-      padding: 5px;
+      padding: 0;
 
       div.newsItemLinkImageDiv {
-        float: left;
-        margin: 15px;
-        max-width: 400px;
-        overflow: hidden;
+        width: 100%;
 
         img.newsItemLinkImage {
-          margin: 0 0px 0 0;
-          width: @newsImageWidth;
-          height: 100%;
-          border-radius: 6px;
+          margin: 0;
+          width: 100%;
+          border-radius: 0;
         }
       }
 
       div.newsItemLinkContent {
+        display: inline-block;
         .pad-hv(1,1);
         .margin-hv(1,1);
 
@@ -150,18 +151,16 @@ ul.newsItems {
           .margin-hv(2,1);
         }
 
-        p.newsItemLinkDescription {
+        .newsItemLinkDescription {
           font-size: 15px;
           color: @gray;
           .margin-hv(2,1);
         }
 
-        p.newsItemLinkSource {
+        .newsItemLinkSource {
           .margin-hv(2,1);
           color: forestgreen;
           font-size: 13px;
-          text-overflow: ellipsis;
-          overflow: hidden;
         }
       }
     }
@@ -170,6 +169,18 @@ ul.newsItems {
 
 ul.newsItems li.newsItem:hover {
   opacity: 1;
+  background: black;
+  div.newsItemLinkContent {
+    .newsItemLinkTitle {
+      color: @white !important;
+    }
+    .newsItemLinkDescription {
+      color: @lighterGray;
+    }
+    .newsItemLinkSource {
+      color: @brightBlue;
+    }
+  }
 }
 
 .sectionMenu {
@@ -284,7 +295,6 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   background: @darkGray;
   color: white;
   border: 0;
-  width: 100%;
 }
 
 .settings {
@@ -303,21 +313,53 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   overflow-y: scroll;
   float: right;
   .pad-hv(2,4);
+  .settingsHeader {
+    color: white;
+    font-size: 14px;
+    float: left;
+  }
   .newsSourcesContainer {
     .newsSourcesList {
       .margin-hv(2,0);
         .newsSourcesListItem {
           padding: 15px 15px;
-          background: @darkerGray;
           .margin-hv(0,0);
-          .round(4px);
           .clickable;
+          opacity: 0.8;
+        }
+        .newsSourcesListItem:hover {
+          opacity: 1;
         }
         .newsSourcesListItem.selected {
           background: @brightBlue;
         }
     }
   }
+}
+
+.footer {
+  background: none !important;
+  color: @lightGray;
+  font-size: 13px;
+  text-align: center;
+}
+
+.footer a strong {
+  color: @darkBlue;
+  opacity: 0.5;
+}
+
+.footer a strong:hover {
+  color: @darkBlue;
+  opacity: 0.5;
+}
+
+.settingsSectionHeader {
+  font-size: 13px;
+  color: @lightGray;
+  text-transform: uppercase;
+  font-family: @uppercaseHeaderFonts;
+  font-weight: bold;
 }
 
 .settings.show {

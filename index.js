@@ -115,6 +115,7 @@ function fetchToDoListItems(callback) {
 }
 
 function renderToDoListItems(listItems) {
+  if (listItems) {
     var reversedList = listItems.reverse();
     var toDoListHtml = "";
     for (var i=0; i<reversedList.length; i++) {
@@ -130,6 +131,7 @@ function renderToDoListItems(listItems) {
     }
     document.getElementById('toDoList').innerHTML = toDoListHtml
     addHideItemEventListeners()
+  }
 }
 
 function hideItem() {
@@ -149,8 +151,15 @@ function clearChromeStorage() {
 // News
 function fetchAndRenderNewsItems() {
   getNewsSource(function (source) {
-    if (source.hasOwnProperty('id')) {
-      const url = 'https://newsapi.org/v1/articles?source='+source.id+'&sortBy=latest&apiKey=6c312d86d5b94c768f39049f27b85696'
+    if (source && source.hasOwnProperty('id')) {
+      const url = 'https://newsapi.org/v1/articles?source='+source.id+'&apiKey=6c312d86d5b94c768f39049f27b85696'
+      httpGetAsync(url, function (response) {
+        const newsResponse = JSON.parse(response)
+        renderNewsItems(newsResponse);
+      })
+    }
+    else {
+      const url = 'https://newsapi.org/v1/articles?source=the-new-york-times&apiKey=6c312d86d5b94c768f39049f27b85696'
       httpGetAsync(url, function (response) {
         const newsResponse = JSON.parse(response)
         renderNewsItems(newsResponse);
@@ -198,15 +207,15 @@ function renderNewsItems(response) {
 
       const newsItem = '<li class="box columns newsItem">' +
           '<a href="'+url+'" class="newsItemLink" target="_blank">' +
+              '<div class="newsItemLinkImageDiv">' +
+                  '<img src="'+ imageUrl +'" class="newsItemLinkImage" />' +
+              '</div>' +
               '<div class="newsItemLinkContent">' +
                   '<p class="newsItemLinkSource">' + url + '</p>' +
                   '<h4 class="newsItemLinkTitle">' + title + '</h4>' +
                   '<p class="newsItemLinkDescription">' +
                       description + '...' +
                   '</p>' +
-                  '<div class="newsItemLinkImageDiv">' +
-                      '<img src="'+ imageUrl +'" class="newsItemLinkImage" />' +
-                  '</div>' +
               '</div>' +
           '</a>' +
       '</li>'
@@ -248,8 +257,11 @@ function renderSelectedSourceInList(source) {
 
 function updateNewsSourceInfoText(source) {
   var newsSourceInfoText = document.getElementById('newsSourceInfoText');
-  if (newsSourceInfoText) {
+  if (newsSourceInfoText && source && source.hasOwnProperty('name')) {
     newsSourceInfoText.innerHTML = 'getting news from <a href="#" class="highlighted" id="newsSourceInfoTextName">' + source.name + '</a>';
+  }
+  else if (newsSourceInfoText) {
+    newsSourceInfoText.innerHTML = '<a href="#" class="highlighted" id="newsSourceInfoTextName">Customize your news source</a>';
   }
 }
 

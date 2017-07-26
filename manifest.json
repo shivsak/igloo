@@ -1,12 +1,14 @@
 {
   "manifest_version": 2,
-
-  "name": "today",
-  "description": "the beautiful new tab view you need.",
+  "name": "Igloo",
   "version": "1.0",
-
+  "description": "news and to do lists to keep you informed and focused",
+  "icons": {
+  	"128": "igloo-icon-128.png"
+  },
+  // Optional
+  "author": "Shiv Sakhuja",
   "browser_action": {
-    "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
   "chrome_url_overrides" : {
