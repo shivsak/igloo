@@ -5,8 +5,9 @@ function addToDo() {
     console.log('adding to do')
     chrome.storage.local.get('toDo', function(result) {
         if (result) {
-            var itemTextInput = document.getElementById('itemTextInput');
-            var itemText = itemTextInput.value;
+            const itemTextInput = document.getElementById('itemTextInput');
+            const itemText = itemTextInput.value;
+            if (itemText.length <= 0) return;
             var toDo = [];
             if (result.hasOwnProperty('toDo')) {
                 if(isEmpty(result.toDo)) {

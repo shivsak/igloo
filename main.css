@@ -101,10 +101,10 @@ ul.newsItems li.newsItem:hover div.newsItemLinkContent .newsItemLinkTitle {
   color: #FFF !important;
 }
 ul.newsItems li.newsItem:hover div.newsItemLinkContent .newsItemLinkDescription {
-  color: #CCC;
+  color: #AAA !important;
 }
 ul.newsItems li.newsItem:hover div.newsItemLinkContent .newsItemLinkSource {
-  color: #3399FF;
+  color: #3399FF !important;
 }
 ul.sectionHeaderList {
   list-style-type: none;
@@ -196,12 +196,6 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   background: black;
   color: white;
 }
-.button.doneButton {
-  float: right;
-  background: #333;
-  color: white;
-  border: 0;
-}
 .settings {
   background: black;
   color: white;
@@ -221,9 +215,27 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   padding: 10px 20px;
 }
 .settings .settingsHeader {
+  position: fixed;
+  top: 0;
+  background: black;
+  padding: 20px 10px;
+  z-index: 2;
+}
+.settings .settingsHeader .button.doneButton {
+  float: right;
+  background: #333;
   color: white;
-  font-size: 14px;
+  border: 0;
+  margin: 0 20px;
+  padding: 5px 10px;
+}
+.settings .settingsHeader .title.settingsHeaderText {
+  color: white;
+  font-size: 2em;
   float: left;
+}
+.settings .newsSourcesContainer {
+  top: 80px;
 }
 .settings .newsSourcesContainer .newsSourcesList {
   margin: 10px 0px;
@@ -270,5 +282,5 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   cursor: pointer;
 }
 .infoText .highlighted {
-  color: #33498F;
+  color: #3399FF;
 }

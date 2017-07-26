@@ -5,6 +5,7 @@
 @brightYellow: #FFFF00;
 @brightGreen: #66CC00;
 @darkBlue: #33498F;
+@forestGreen: forestgreen;
 
 @black: #000;
 @darkerGray: #181818;
@@ -159,7 +160,7 @@ ul.newsItems {
 
         .newsItemLinkSource {
           .margin-hv(2,1);
-          color: forestgreen;
+          color: @forestGreen;
           font-size: 13px;
         }
       }
@@ -175,10 +176,10 @@ ul.newsItems li.newsItem:hover {
       color: @white !important;
     }
     .newsItemLinkDescription {
-      color: @lighterGray;
+      color: @lightGray !important;
     }
     .newsItemLinkSource {
-      color: @brightBlue;
+      color: @brightBlue !important;
     }
   }
 }
@@ -290,13 +291,6 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   color: white;
 }
 
-.button.doneButton {
-  float: right;
-  background: @darkGray;
-  color: white;
-  border: 0;
-}
-
 .settings {
   .dark;
   display: none;
@@ -314,11 +308,28 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   float: right;
   .pad-hv(2,4);
   .settingsHeader {
-    color: white;
-    font-size: 14px;
-    float: left;
+    position: fixed;
+    top: 0;
+    background: black;
+    padding: 20px 10px;
+    z-index: 2;
+    .button.doneButton {
+      float: right;
+      background: @darkGray;
+      color: white;
+      border: 0;
+      margin: 0 20px;
+      padding: 5px 10px;
+    }
+    .title.settingsHeaderText {
+      color: white;
+      font-size: 2em;
+      float: left;
+    }  
   }
+  
   .newsSourcesContainer {
+    top: 80px;
     .newsSourcesList {
       .margin-hv(2,0);
         .newsSourcesListItem {
@@ -373,5 +384,5 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
 }
 
 .infoText .highlighted {
-  color: @darkBlue;
+  color: @brightBlue;
 }
