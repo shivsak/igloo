@@ -2,7 +2,8 @@
 Chrome new tab extension
 
 ## To-Do
-- fetch news items from data source
-- fetch weather from data source
-- fetch toDo items from chrome storage
-- 
+- [ ] cache news items
+- [ ] fetch weather from data source
+- [ ] allow multiple news sources
+- [ ] add updated at label (after caching)
+- [ ] don't reload on adding to-do
