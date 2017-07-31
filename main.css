@@ -44,6 +44,8 @@ body {
 ul.newsItems {
   list-style-type: none;
   padding: 0px;
+  display: flex;
+  flex-wrap: wrap;
 }
 ul.newsItems li.newsItem {
   margin: 15px 15px;
@@ -51,8 +53,9 @@ ul.newsItems li.newsItem {
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  max-width: 400px;
-  display: inline-block;
+  flex-basis: 300px;
+  flex-grow: 1;
+  flex-shrink: 1;
   box-shadow: 0 1px 4px #b8b8b8;
   overflow: hidden;
   position: relative;
@@ -60,7 +63,6 @@ ul.newsItems li.newsItem {
 }
 ul.newsItems li.newsItem a.newsItemLink {
   text-decoration: none;
-  max-height: 200px;
   overflow: hidden;
   padding: 0;
 }
@@ -73,7 +75,6 @@ ul.newsItems li.newsItem a.newsItemLink div.newsItemLinkImageDiv img.newsItemLin
   border-radius: 0;
 }
 ul.newsItems li.newsItem a.newsItemLink div.newsItemLinkContent {
-  display: inline-block;
   padding: 5px 5px;
   margin: 5px 5px;
 }

@@ -19,8 +19,6 @@
 @uppercaseHeaderFonts: "Calibri","HelveticaNeue", Helvetica, sans-serif;
 @modernFonts: "Lato", "HelveticaNeue", "Helvetica", sans-serif;
 
-@newsImageWidth: 320px;
-
 @x: 5px;
 .pad(@a) {
   padding: @x*@a;
@@ -111,14 +109,17 @@ body {
 ul.newsItems {
   list-style-type: none;
   padding: 0px;
+  display: flex;
+  flex-wrap: wrap;
   // max-width: 600px;
 
   li.newsItem {
     .margin-hv(3,3);
     .pad-hv(0,0);
     .round(5px);
-    max-width: 400px;
-    display: inline-block;
+    flex-basis: 300px;
+    flex-grow: 1;
+    flex-shrink: 1;
     box-shadow: 0 1px 4px lighten(black, 72%);
     overflow: hidden;
     position: relative;
@@ -126,7 +127,6 @@ ul.newsItems {
 
     a.newsItemLink {
       text-decoration: none;
-      max-height: 200px;
       overflow: hidden;
       padding: 0;
 
@@ -141,7 +141,6 @@ ul.newsItems {
       }
 
       div.newsItemLinkContent {
-        display: inline-block;
         .pad-hv(1,1);
         .margin-hv(1,1);
 
