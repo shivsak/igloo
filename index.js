@@ -1,5 +1,10 @@
 var readingStack = '"Georgia", "AmericanTypewriter", "Garamond", serif';
 var newsSources = []
+const error = {
+  noInternetError: 'NO_INTERNET',
+  fetchNewsFailedError: 'FETCH_NEWS_FAILED'
+}
+
 
 function addToDo() {
     console.log('adding to do')
@@ -157,6 +162,9 @@ function fetchAndRenderNewsItems() {
       httpGetAsync(url, function (response) {
         const newsResponse = JSON.parse(response)
         renderNewsItems(newsResponse);
+        hideErrorDiv();
+      }, function (failureStatus) {
+        renderErrorMessage(error.fetchNewsFailedError)
       })
     }
     else {
@@ -230,12 +238,16 @@ function renderNewsItems(response) {
 }
 
 
-function httpGetAsync(theUrl, callback)
+function httpGetAsync(theUrl, successCallback, failureCallback)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+          successCallback(xmlHttp.responseText);
+        }
+        else if (failureCallback) {
+          failureCallback(xmlHttp.status)
+        }
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous
     xmlHttp.send(null);
@@ -276,7 +288,6 @@ function fetchAndRenderListOfSources(callback) {
   const url = 'https://newsapi.org/v1/sources?language=en'
   httpGetAsync(url, function (response) {
     const sourcesResponse = JSON.parse(response)
-    console.log(sourcesResponse);
     if (sourcesResponse.hasOwnProperty('sources')) {
       renderListOfSources(sourcesResponse.sources);
     }
@@ -286,7 +297,6 @@ function fetchAndRenderListOfSources(callback) {
 function renderListOfSources(sources) {
   var newsSourcesList = document.getElementById('newsSourcesList');
   var sourceListHtml = '';
-  console.log(sources);
   for (var i=0; i<sources.length; i++) {
     const source = sources[i];
     sourceListHtml +='<li class="newsSourcesListItem">'+ source.name +'</li>'
@@ -329,7 +339,6 @@ function addHideSettingsTextEventListeners() {
   var settingsHideButton = document.getElementById('settingsHideButton');
   if (settingsHideButton) {
     settingsHideButton.addEventListener('click', function () {
-      console.log('hideing')
       hideSettings();
     })
   }
@@ -362,7 +371,6 @@ function hideSettings() {
 // set date
 function setDate() {
   var date = new Date();
-  console.log(date.getDate());
   var dateElem = document.getElementById('date');
   if (dateElem) {
     dateElem.innerHTML= getFormattedMonth(date) + ' <a href="http://calendar.google.com" class="date">'+getFormattedDate(date)+'</a>'
@@ -379,4 +387,30 @@ function getFormattedMonth (dateObject) {
   const monthNumber = dateObject.getMonth();
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return months[monthNumber];
+}
+
+function renderErrorMessage(errorType) {
+  if (errorType === error.noInternetError) renderNoInternetError()
+  else if (errorType === error.fetchNewsFailedError) renderFetchNewsFailedError()
+}
+
+function renderNoInternetError() {
+  console.error('NO INTERNET')
+}
+
+function renderFetchNewsFailedError() {
+  console.error('News fetch failed')
+  const errorDiv = document.querySelector('#errorDiv')
+  if (errorDiv) {
+    errorDiv.style.display = 'block';
+    errorDiv.innerHTML = "Couldn't fetch news. Are you sure you have a working internet connection?"
+  }
+}
+
+function hideErrorDiv() {
+  const errorDiv = document.querySelector('#errorDiv')
+  if (errorDiv) {
+    errorDiv.style.display = 'none';
+    errorDiv.innerHTML = "Couldn't fetch news. Are you sure you have a working internet connection?"
+  }
 }

@@ -285,3 +285,16 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
 .infoText .highlighted {
   color: #3399FF;
 }
+.errorDiv {
+  margin: 5px 5px;
+  padding: 10px 20px;
+  border-radius: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  font-size: 15px;
+  background: rgba(255, 40, 100, 0.2);
+  color: #ff2864;
+  display: none;
+  position: fixed;
+  bottom: 20px;
+}
