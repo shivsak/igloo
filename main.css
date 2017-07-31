@@ -286,7 +286,6 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   color: #3399FF;
 }
 .errorDiv {
-  margin: 5px 5px;
   padding: 10px 20px;
   border-radius: 9px;
   -webkit-border-radius: 9px;
@@ -294,7 +293,16 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   font-size: 15px;
   background: rgba(255, 40, 100, 0.2);
   color: #ff2864;
-  display: none;
+  max-width: 700px;
+  text-align: center;
+  margin: 20px auto;
+}
+.errorDivContainer {
+  display: block;
+  background: #141414;
   position: fixed;
-  bottom: 20px;
+  bottom: 0px;
+  height: 80px;
+  width: 100%;
+  display: none;
 }

@@ -242,11 +242,9 @@ function httpGetAsync(theUrl, successCallback, failureCallback)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-          successCallback(xmlHttp.responseText);
-        }
-        else if (failureCallback) {
-          failureCallback(xmlHttp.status)
+        if (xmlHttp.readyState == 4) {
+          if (xmlHttp.status == 200) successCallback(xmlHttp.responseText);
+          else if (failureCallback) failureCallback(xmlHttp.status)
         }
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous
@@ -400,17 +398,19 @@ function renderNoInternetError() {
 
 function renderFetchNewsFailedError() {
   console.error('News fetch failed')
-  const errorDiv = document.querySelector('#errorDiv')
-  if (errorDiv) {
-    errorDiv.style.display = 'block';
+  const errorDiv = document.querySelector('#errorDiv');
+  const errorDivContainer = document.querySelector('#errorDivContainer');
+  if (errorDiv && errorDivContainer) {
+    errorDivContainer.style.display = 'block';
     errorDiv.innerHTML = "Couldn't fetch news. Are you sure you have a working internet connection?"
   }
 }
 
 function hideErrorDiv() {
-  const errorDiv = document.querySelector('#errorDiv')
-  if (errorDiv) {
-    errorDiv.style.display = 'none';
+  const errorDiv = document.querySelector('#errorDiv');
+  const errorDivContainer = document.querySelector('#errorDivContainer');
+  if (errorDiv && errorDivContainer) {
+    errorDivContainer.style.display = 'none';
     errorDiv.innerHTML = "Couldn't fetch news. Are you sure you have a working internet connection?"
   }
 }
