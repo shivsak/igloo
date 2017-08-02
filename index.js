@@ -182,6 +182,10 @@ function fetchAndRenderNewsItems() {
   });
 }
 
+function clearNewsItems() {
+  renderNewsItems([]);
+}
+
 function renderNewsItems(articles) {
   var newsItemsList = document.getElementById('newsItemsList');
   var newsHtml = '';
@@ -353,7 +357,20 @@ function addSourcesClickEventListeners(sources) {
 function addEventListeners() {
   addShowSettingsTextEventListeners();
   addHideSettingsTextEventListeners();
+  addClearSourcesEventListener();
   addEscapeKeyEventListener();
+}
+
+function addClearSourcesEventListener() {
+  const clearSourcesButton = document.getElementById('clearSourcesButton');
+  if (clearSourcesButton) {
+    clearSourcesButton.addEventListener('click', function() {
+      chrome.storage.local.set({'newsSources': []}, function() {
+        clearNewsItems();
+        newsSourcesUpdated();
+      })
+    })
+  }
 }
 
 function addShowSettingsTextEventListeners() {

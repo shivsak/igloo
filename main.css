@@ -312,7 +312,8 @@ ul.sectionHeaderList li.sectionHeaderItem.active {
   margin: 10px;
   position: fixed;
   bottom: 0;
-  width: 300px;
+  border-radius: 6px;
+  width: 340px;
   text-align: center;
   color: #00d1b2;
 }
