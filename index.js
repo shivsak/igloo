@@ -214,7 +214,7 @@ function renderNewsItems(articles) {
     var description = ''
     const maxLength = 100;
     if (article.hasOwnProperty('description')) {
-      if (article.description.length > maxLength) {
+      if (article.description && article.description.length > maxLength) {
         description = article.description.substring(0, maxLength);
       } else {
         description = article.description;

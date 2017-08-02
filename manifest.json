@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Igloo",
-  "version": "1.2",
+  "version": "1.3",
   "description": "news and to do lists to keep you informed and focused",
   "icons": {
   	"128": "igloo-icon-128.png"
