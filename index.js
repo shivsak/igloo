@@ -4,7 +4,8 @@ const error = {
   noInternetError: 'NO_INTERNET',
   fetchNewsFailedError: 'FETCH_NEWS_FAILED'
 }
-
+const newsSourcesKey = 'newsSources'
+var sources = [];
 
 function addToDo() {
     console.log('adding to do')
@@ -73,9 +74,6 @@ function isEmpty(obj) {
 document.addEventListener('DOMContentLoaded', function (event) {
     setDate();
     fetchAndRenderToDoListItems();
-    getNewsSource(function(source) {
-      updateNewsSourceInfoText(source);
-    })
     fetchAndRenderNewsItems();
     fetchAndRenderListOfSources();
     addEventListeners();
@@ -156,81 +154,85 @@ function clearChromeStorage() {
 
 // News
 function fetchAndRenderNewsItems() {
-  getNewsSource(function (source) {
-    if (source && source.hasOwnProperty('id')) {
-      const url = 'https://newsapi.org/v1/articles?source='+source.id+'&apiKey=6c312d86d5b94c768f39049f27b85696'
-      httpGetAsync(url, function (response) {
-        const newsResponse = JSON.parse(response)
-        renderNewsItems(newsResponse);
-        hideErrorDiv();
-      }, function (failureStatus) {
-        renderErrorMessage(error.fetchNewsFailedError)
-      })
-    }
-    else {
-      const url = 'https://newsapi.org/v1/articles?source=the-new-york-times&apiKey=6c312d86d5b94c768f39049f27b85696'
-      httpGetAsync(url, function (response) {
-        const newsResponse = JSON.parse(response)
-        renderNewsItems(newsResponse);
-      })
+  getNewsSources(function (result) {
+    var articles = []
+    for (var i=0; i<sources.length; i++) {
+      const source = sources[i];
+      if (source) {
+        const url = 'https://newsapi.org/v1/articles?source='+source+'&apiKey=6c312d86d5b94c768f39049f27b85696'
+        httpGetAsync(url, function (response) {
+          const newsResponse = JSON.parse(response)
+          if (newsResponse.hasOwnProperty('articles') && newsResponse.articles.length > 0) {
+            articles = articles.concat(newsResponse.articles)
+          }
+          renderNewsItems(articles);
+          hideErrorDiv();
+        }, function (failureStatus) {
+          renderErrorMessage(error.fetchNewsFailedError)
+        })
+      }
+      else {
+        const url = 'https://newsapi.org/v1/articles?source=the-new-york-times&apiKey=6c312d86d5b94c768f39049f27b85696'
+        httpGetAsync(url, function (response) {
+          const newsResponse = JSON.parse(response)
+          renderNewsItems(newsResponse);
+        })
+      }
     }
   });
 }
 
-function renderNewsItems(response) {
+function renderNewsItems(articles) {
   var newsItemsList = document.getElementById('newsItemsList');
   var newsHtml = '';
   // check resposne status
-  if (response.hasOwnProperty('articles') && response.articles.length > 0) {
-    const articles = response.articles
-    for (var i=0; i<articles.length; i++) {
-      const article = articles[i];
-      // image
-      var imageUrl = ''
-      if (article.hasOwnProperty('urlToImage')) {
-        imageUrl = article.urlToImage;
-      }
-
-      // url
-      var url = ''
-      if (article.hasOwnProperty('url')) {
-        url = article.url;
-      }
-
-      // title
-      var title = ''
-      if (article.hasOwnProperty('title')) {
-        title = article.title;
-      }
-
-      // description
-      var description = ''
-      const maxLength = 100;
-      if (article.hasOwnProperty('description')) {
-        if (article.description.length > maxLength) {
-          description = article.description.substring(0, maxLength);
-        } else {
-          description = article.description;
-        }
-      }
-
-      const newsItem = '<li class="box columns newsItem">' +
-          '<a href="'+url+'" class="newsItemLink" target="_blank">' +
-              '<div class="newsItemLinkImageDiv">' +
-                  '<img src="'+ imageUrl +'" class="newsItemLinkImage" />' +
-              '</div>' +
-              '<div class="newsItemLinkContent">' +
-                  '<p class="newsItemLinkSource">' + url + '</p>' +
-                  '<h4 class="newsItemLinkTitle">' + title + '</h4>' +
-                  '<p class="newsItemLinkDescription">' +
-                      description + '...' +
-                  '</p>' +
-              '</div>' +
-          '</a>' +
-      '</li>'
-      newsHtml += newsItem
-      // console.log(newsItem)
+  for (var i=0; i<articles.length; i++) {
+    const article = articles[i];
+    // image
+    var imageUrl = ''
+    if (article.hasOwnProperty('urlToImage')) {
+      imageUrl = article.urlToImage;
     }
+
+    // url
+    var url = ''
+    if (article.hasOwnProperty('url')) {
+      url = article.url;
+    }
+
+    // title
+    var title = ''
+    if (article.hasOwnProperty('title')) {
+      title = article.title;
+    }
+
+    // description
+    var description = ''
+    const maxLength = 100;
+    if (article.hasOwnProperty('description')) {
+      if (article.description.length > maxLength) {
+        description = article.description.substring(0, maxLength);
+      } else {
+        description = article.description;
+      }
+    }
+
+    const newsItem = '<li class="box columns newsItem">' +
+        '<a href="'+url+'" class="newsItemLink" target="_blank">' +
+            '<div class="newsItemLinkImageDiv">' +
+                '<img src="'+ imageUrl +'" class="newsItemLinkImage" />' +
+            '</div>' +
+            '<div class="newsItemLinkContent">' +
+                '<p class="newsItemLinkSource">' + url + '</p>' +
+                '<h4 class="newsItemLinkTitle">' + title + '</h4>' +
+                '<p class="newsItemLinkDescription">' +
+                    description + '...' +
+                '</p>' +
+            '</div>' +
+        '</a>' +
+    '</li>'
+    newsHtml += newsItem
+    // console.log(newsItem)
   }
   if (newsItemsList) {
     newsItemsList.innerHTML = newsHtml;
@@ -251,35 +253,60 @@ function httpGetAsync(theUrl, successCallback, failureCallback)
     xmlHttp.send(null);
 }
 
-
+function newsSourcesUpdated() {
+  updateNewsSourceInfoText();
+  renderSelectedSourcesInList();
+  fetchAndRenderNewsItems();
+}
 
 // customize news sources
 function setNewsSource(source) {
-  chrome.storage.local.set({'newsSource': source}, function () {
-    updateNewsSourceInfoText(source);
-    renderSelectedSourceInList(source);
-    fetchAndRenderNewsItems();
-  });
+    sources.push(source.id);
+    chrome.storage.local.set({'newsSources': sources}, function() {
+      newsSourcesUpdated();
+    })
 }
 
-function renderSelectedSourceInList(source) {
+function renderSelectedSourcesInList() {
 
 }
 
-function updateNewsSourceInfoText(source) {
-  var newsSourceInfoText = document.getElementById('newsSourceInfoText');
-  if (newsSourceInfoText && source && source.hasOwnProperty('name')) {
-    newsSourceInfoText.innerHTML = 'getting news from <a href="#" class="highlighted" id="newsSourceInfoTextName">' + source.name + '</a>';
-  }
-  else if (newsSourceInfoText) {
-    newsSourceInfoText.innerHTML = '<a href="#" class="highlighted" id="newsSourceInfoTextName">Customize your news source</a>';
-  }
-}
-
-function getNewsSource(callback) {
-  chrome.storage.local.get('newsSource', function(result) {
-    callback(result.newsSource)
+function updateNewsSourceInfoText() {
+  console.log('updating news source info ttext')
+  chrome.storage.local.get('newsSources', function(obj) {
+    const sources = obj.newsSources
+    const sourcesText = newsSources.filter(ns => {
+      return sources.indexOf(ns.id) >= 0
+    }).map(ns => ns.name).join(', ');
+    console.log('sourcesText: ', sourcesText)
+    var newsSourceInfoText = document.getElementById('newsSourceInfoText');
+    if (newsSourceInfoText && sources.length > 0) {
+      newsSourceInfoText.innerHTML = 'getting news from <a href="#" class="highlighted" id="newsSourceInfoTextName">' + sourcesText + '</a>';
+    }
+    else if (newsSourceInfoText) {
+      newsSourceInfoText.innerHTML = '<a href="#" class="highlighted" id="newsSourceInfoTextName">Customize your news source</a>';
+    }
   })
+  
+}
+
+function getNewsSources(callback) {
+  // chrome.storage.local.clear()
+  chrome.storage.local.get('newsSources', function(result) {
+    if (result.hasOwnProperty('newsSources')) {
+      sources = getUniqueArray(result.newsSources);
+    }
+    callback(result)
+  })
+}
+
+function getUniqueArray(arr) {
+	var n = []; 
+	for(var i = 0; i < arr.length; i++) 
+	{
+		if (n.indexOf(arr[i]) == -1) n.push(arr[i]);
+  }
+	return n;
 }
 
 function fetchAndRenderListOfSources(callback) {
@@ -287,7 +314,9 @@ function fetchAndRenderListOfSources(callback) {
   httpGetAsync(url, function (response) {
     const sourcesResponse = JSON.parse(response)
     if (sourcesResponse.hasOwnProperty('sources')) {
-      renderListOfSources(sourcesResponse.sources);
+      newsSources = sourcesResponse.sources
+      renderListOfSources(newsSources);
+      updateNewsSourceInfoText()
     }
   })
 }
@@ -299,6 +328,8 @@ function renderListOfSources(sources) {
     const source = sources[i];
     sourceListHtml +='<li class="newsSourcesListItem">'+ source.name +'</li>'
   }
+  sourceListHtml +='<li class="newsSourcesListItem"> </li>'
+  sourceListHtml +='<li class="newsSourcesListItem"> </li>'
   if (newsSourcesList) {
     newsSourcesList.innerHTML = sourceListHtml;
   }
@@ -353,8 +384,22 @@ function addEscapeKeyEventListener() {
 }
 
 function sourceSelected(source) {
-  console.log('selected source id ' + source.id);
-  setNewsSource(source);
+  getNewsSources(function(obj) {
+    const sources = obj.newsSources
+    if (sources && sources.length > 5) {
+      const err = 'You cannot select more than 6 news sources.';
+      console.error(err);
+      alert(err);
+    }
+    else if (sources && sources.indexOf(source.id) >= 0) {
+      const err = 'You have already selected this news source.';
+      console.error(err);
+      alert(err);
+    }
+    else {
+      setNewsSource(source);
+    }
+  })
 }
 
 function showSettings() {
@@ -423,4 +468,14 @@ function hideErrorDiv() {
     errorDivContainer.style.display = 'none';
     errorDiv.innerHTML = "Couldn't fetch news. Are you sure you have a working internet connection?"
   }
+}
+
+Array.prototype.unique = function()
+{
+	var n = []; 
+	for(var i = 0; i < this.length; i++) 
+	{
+		if (n.indexOf(this[i]) == -1) n.push(this[i]);
+	}
+	return n;
 }
