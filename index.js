@@ -322,6 +322,7 @@ function addSourcesClickEventListeners(sources) {
 function addEventListeners() {
   addShowSettingsTextEventListeners();
   addHideSettingsTextEventListeners();
+  addEscapeKeyEventListener();
 }
 
 function addShowSettingsTextEventListeners() {
@@ -340,6 +341,15 @@ function addHideSettingsTextEventListeners() {
       hideSettings();
     })
   }
+}
+
+function addEscapeKeyEventListener() {
+  document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    if (evt.keyCode == 27) {
+        hideSettings();
+    }
+};
 }
 
 function sourceSelected(source) {
