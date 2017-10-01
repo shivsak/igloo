@@ -1,5 +1,5 @@
 # today-chrome-extension
-Chrome new tab extension
+Chrome new tab extension: http://shivsakhuja.com/igloo
 
 ## To-Do
 - [ ] cache news items
